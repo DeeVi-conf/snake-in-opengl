@@ -1,6 +1,9 @@
+#include <math.h>
+#include <stdlib.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -118,7 +121,10 @@ int main(int argc, char *arv[]){
     glLinkProgram(shaderProgram);
     
     double lastTime = .0;
+
     direction = LEFT;
+
+    bool apple_exists = false;
 
     struct block array[100]; 
     while(!glfwWindowShouldClose(window)){
@@ -131,7 +137,23 @@ int main(int argc, char *arv[]){
         // Game logic Time !!!
         double time = glfwGetTime();
         
+        float rx, ry;
+
         if(time > lastTime + .7){
+            // apple be spawning
+            if(!apple_exists){
+                rx = (float)(( ( rand() % 10 ) * 2 ) - 9) / 10.f; 
+                ry = (float)((( rand() % 10 ) * 2 ) - 9) / 10.f;
+                apple_exists = true;
+            }
+            drawsquare(rx, ry, 0.2f, 1.f, 0.0f, 0.0f);
+
+            if( fabsf(snake_pos_x - rx) < 0.0001 && fabsf(snake_pos_y - ry) < 0.0001){
+                size++;
+                apple_exists = false;
+            }
+
+            // Snake be moving
             if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) size++;
 
             for (int i = size - 1; i > 0; i--) {
