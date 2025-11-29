@@ -1,0 +1,5 @@
+-Iinclude
+-Iglad
+-I/usr/include
+-I/usr/include/GL
+-I/usr/include/GLFW
